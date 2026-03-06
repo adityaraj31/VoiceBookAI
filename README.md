@@ -2,141 +2,135 @@
 
 A voice-first AI assistant that lets users browse, book, and get recommendations for events entirely through speech in **Telugu (తెలుగు)**, **Hindi (हिन्दी)**, or **English**.
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-green)
-![Whisper](https://img.shields.io/badge/Whisper-STT-orange)
-![License](https://img.shields.io/badge/License-MIT-yellow)
+---
 
-## ✨ Features
+## 🏗️ Task Selection & Rationale
+**Selected Task: Task [03] — Conversational Voice AI**
+
+I chose this task because it represents the future of user interfaces — moving beyond screens to natural, multi-turn dialogue. Developing a system that can handle language switching (English/Hindi/Telugu), extract intents from casual speech, and manage conversational state (like "book the first one") presents exciting technical challenges in orchestrating STT, LLMs, and TTS into a low-latency loop.
+
+---
+
+## ✨ Key Features
 
 | Feature | Description |
 |---------|-------------|
-| 🎙️ Voice Input | Speak in Telugu, Hindi, or English — auto-detected |
-| 🧠 Smart Intent | LLM extracts event, date, time, tickets from natural speech |
-| 📅 Event Database | 15 seeded events across 8 categories with real-time availability |
-| 🎟️ Instant Booking | Book with voice, get a reference code immediately |
-| 💡 No Disappointment | When an event is full, 2–3 alternatives are offered instantly |
-| 🔊 Voice Response | Responds back in your language via TTS |
-| 💬 Multi-turn Chat | Handles follow-up questions and confirmations |
+| 🎙️ **Voice Input** | Speak in Telugu, Hindi, or English — auto-detected language. |
+| 🧠 **Smart Intent** | LLM extracts event, date, time, and ticket count from natural speech. |
+| 📅 **Event Database** | 15 seeded events across 8 categories with real-time availability. |
+| 🎟️ **Instant Booking** | Book with voice, get a reference code immediately. |
+| 💡 **No Disappointment** | When an event is full, AI offers 2–3 alternatives instantly. |
+| 💬 **Multi-turn Chat** | Handles relative references like "Book it" or "The first one". |
+| 🔊 **Voice Response** | Real-time multilingual audio response via gTTS. |
 
-## 🏗️ Architecture
 
-```
-Voice Input → Whisper STT → Language Detection
-                    ↓
-            Intent Extraction (LLM via OpenRouter)
-                    ↓
-        Conversation Manager → SQLite DB
-                    ↓
-         Smart Recommendations (if full)
-                    ↓
-            gTTS Voice Response → Audio Playback
-```
+---
 
-## 🚀 Quick Start
+## 🛠️ Tech Stack & Architecture
 
-### Prerequisites
-- Python 3.10+
-- [uv](https://docs.astral.sh/uv/) package manager
-- [OpenRouter API Key](https://openrouter.ai/) (for LLM intent extraction)
-- FFmpeg (required by Whisper for audio processing)
+### **Data Flow**
+1. **Frontend**: Captures audio (Web Audio API) or text.
+2. **STT (Speech-to-Text)**: **OpenAI Whisper (Local)** transcribes audio on-device.
+3. **Intent Extraction**: **Gemini 2.0 Flash (via OpenRouter)** parses raw text into structured intents.
+4. **Conversation Manager**: Maintains session state, resolves relative indexes, and queries the **SQLite** DB.
+5. **TTS (Text-to-Speech)**: **gTTS** synthesizes the assistant's response in the detected language.
+6. **Playback**: Frontend receives audio URL and plays it back immediately.
 
-### Setup
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/your-username/ai-voice-booking-system.git
-cd ai-voice-booking-system
-
-# 2. Create .env file with your API key
-cp .env.example .env
-# Edit .env and add your OPENROUTER_API_KEY
-
-# 3. Install dependencies with uv
-uv sync
-
-# 4. Run the server
-uv run uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
-
-# 5. Open in browser
-# Navigate to http://localhost:8000
+### **Architecture Diagram**
+```text
+[Browser] <--- API ---> [FastAPI]
+    |                      |
+(Recorder)           (Whisper STT)
+                           |
+                     (Gemini LLM)
+                           |
+                   (Conversation State)
+                           |
+                      (SQLite DB)
+                           |
+                       (gTTS)
 ```
 
-### Environment Variables
+---
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `OPENROUTER_API_KEY` | Yes | API key from [OpenRouter](https://openrouter.ai/) |
-| `LLM_MODEL` | No | LLM model to use (default: `google/gemini-2.0-flash-001`) |
-| `WHISPER_MODEL_SIZE` | No | Whisper model size: `tiny`, `base`, `small` (default: `base`) |
+## 🚀 Setup Instructions
 
-## 🎯 Demo Script
+### **Prerequisites**
+- **Python 3.10+**
+- **[uv](https://docs.astral.sh/uv/)** (Highly recommended for fast dependency management)
+- **FFmpeg** (Required for Whisper audio processing)
+- **OpenRouter API Key** (Get it at [openrouter.ai](https://openrouter.ai/))
 
-### English
-1. Click the 🎤 button and say: **"Hello"**
-2. Say: **"Show me events this weekend"**
-3. Say: **"Book 2 tickets for the photography workshop"**
-4. If event is full, assistant offers alternatives — say: **"Yes, book the first one"**
+### **Local Deployment**
 
-### Hindi (हिन्दी)
-1. Say: **"Namaste"**
-2. Say: **"Koi event hai Sunday ko?"**
-3. Say: **"Dance workshop ke liye do ticket book karo"**
-4. If full: **"Haan, pehla wala book karo"**
+1.  **Clone the Repository**:
+    ```bash
+    git clone https://github.com/your-username/VoiceBookAI.git
+    cd VoiceBookAI
+    ```
 
-### Telugu (తెలుగు)
-1. Say: **"Namaskaram"**
-2. Say: **"Saturday ki emaina events unnaya?"**
-3. Say: **"Photography workshop ki rendu tickets kaavali"**
-4. If full: **"Avunu, first option book cheyyi"**
+2.  **Environment Setup**:
+    Create a `.env` file in the root directory:
+    ```bash
+    OPENROUTER_API_KEY=your_key_here
+    LLM_MODEL=google/gemini-2.0-flash-001
+    WHISPER_MODEL_SIZE=base
+    ```
 
-### Using Text Mode
-Switch to ⌨️ Text mode for testing without a microphone. Select your language from the dropdown and type your query.
+3.  **Install Dependencies**:
+    ```bash
+    uv sync
+    ```
 
-## 📁 Project Structure
+4.  **Run the Application**:
+    ```bash
+    uv run uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
+    ```
 
-```
-├── backend/
-│   ├── main.py           # FastAPI app + endpoints
-│   ├── models.py         # Pydantic data models
-│   ├── database.py       # SQLite setup + 15 seeded events
-│   ├── booking.py        # Booking engine + reference codes
-│   ├── recommender.py    # Smart alternative recommendations
-│   ├── stt.py            # Whisper speech-to-text
-│   ├── tts.py            # gTTS text-to-speech
-│   ├── intent.py         # LLM intent extraction
-│   └── conversation.py   # Multi-turn conversation manager
-├── frontend/
-│   ├── index.html        # Main UI
-│   ├── style.css         # Dark glassmorphic theme
-│   └── app.js            # Voice recording + API integration
-├── tests/
-│   ├── test_database.py
-│   ├── test_booking.py
-│   └── test_recommender.py
-├── pyproject.toml
-├── .env.example
-└── README.md
-```
+5.  **Access the UI**:
+    Open `http://localhost:8000` in your browser.
 
-## 🧪 Running Tests
+---
 
-```bash
-uv run pytest tests/ -v
-```
+## 🎯 Demo & Screenshots
 
-## 🛠️ Tech Stack
+### **Full Conversational Demo**
+The following recording shows a multi-turn conversation where a user tries to book a full event and the AI intelligently suggests alternatives.
 
-| Component | Technology |
-|-----------|-----------|
-| Backend | Python + FastAPI |
-| STT | OpenAI Whisper (local) |
-| TTS | gTTS (Google TTS) |
-| LLM | Gemini via OpenRouter |
-| Database | SQLite |
-| Frontend | HTML + CSS + JavaScript |
-| Package Manager | uv |
+![Conversational Booking Demo](docs/demo/contextual_booking_verify_1772755653639.webp)
+
+---
+
+### **Premium Monochromatic UI**
+The interface is designed with a premium, glassmorphic aesthetic inspired by Sarvam AI.
+
+| Home / Events View | Mobile-Responsive Check |
+|-------------------|-------------------------|
+| ![Full Page UI](docs/demo/voicebookai_full_page_1772756049502.png) | ![UI Verification](docs/demo/ui_monochromatic_verify_final_1772754983264.webp) |
+
+---
+
+### **Edge Case: Event Full Handling**
+- **Scenario**: User requests "Classical Carnatic Concert" (marked as Full in DB).
+- **AI Action**: Detects zero availability, fetches similar events in the same category or date, and presents them in a natural multi-turn prompt.
+- **Reference**: See the "Full Conversational Demo" above for the visual flow of this logic.
+
+---
+
+## ⚠️ Known Limitations & Future Improvements
+
+### **Current Limitations**
+1. **Latency**: Local Whisper `base` model takes 1-2 seconds for transcription.
+2. **Stateless Audio**: TTS files are stored in `/tmp/`. In a multi-instance production environment, these should be on a CDN/GCS.
+3. **Authentication**: Currently uses a simple session ID; no persistent user accounts.
+
+### **Future Improvements**
+1. **Voice Activity Detection (VAD)**: Implement Silero VAD to automatically stop recording when the user finishes speaking.
+2. **Cloud Whisper**: Move to OpenAI Whisper API for <500ms STT latency.
+3. **Vector Search**: Use FAISS or a Vector DB for even better event discovery via semantic search.
+4. **Voice Cloning**: Integrate ElevenLabs for more expressive and human-like voices in all three languages.
+
+---
 
 ## 📜 License
-
-MIT
+MIT License - 2026 VoiceBookAI Team.
