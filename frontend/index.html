@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI Voice Booking System — Book events in Telugu, Hindi, or English using only your voice.">
+    <title>VoiceBookAI — Speak to Book Events</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x1="12" y1="19" y2="22"/></svg>
+                    </span>
+                    <h1>VoiceBook<span class="logo-accent">AI</span></h1>
+                </div>
+                <p class="tagline">Speak in Telugu, Hindi, or English — we'll handle the rest</p>
+                <div class="language-badges">
+                    <span class="badge badge-te">తెలుగు</span>
+                    <span class="badge badge-hi">हिन्दी</span>
+                    <span class="badge badge-en">English</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Left Panel: Conversation -->
+            <section class="conversation-panel glass">
+                <div class="panel-header">
+                    <div class="header-title">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        <h2>Conversation</h2>
+                    </div>
+                    <button id="clearChat" class="btn-icon" title="Clear conversation">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    </button>
+                </div>
+
+                <div id="chatMessages" class="chat-messages">
+                    <div class="chat-message assistant">
+                        <div class="message-avatar">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+                    </div>
+                        <div class="message-content">
+                            <p>Hello! I'm your AI booking assistant. Press the microphone button and speak to me in Telugu, Hindi, or English.</p>
+                            <p class="message-hint">Think: "Show me events this weekend" or "Book tickets for the dance show"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Voice Input Area -->
+                <div class="voice-input-area">
+                    <div class="input-mode-tabs">
+                        <button id="voiceModeBtn" class="mode-tab active">Voice</button>
+                        <button id="textModeBtn" class="mode-tab">Text</button>
+                    </div>
+
+                    <!-- Voice Mode -->
+                    <div id="voiceMode" class="input-section">
+                        <button id="recordBtn" class="mic-button" title="Hold or click to record">
+                            <div class="mic-ripple"></div>
+                            <div class="mic-ripple delay-1"></div>
+                            <div class="mic-ripple delay-2"></div>
+                            <svg class="mic-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                        <p id="recordStatus" class="record-status">Click to start recording</p>
+                    </div>
+
+                    <!-- Text Mode -->
+                    <div id="textMode" class="input-section hidden">
+                        <div class="text-input-row">
+                            <input type="text" id="textInput" class="text-input" placeholder="Type your query here... (e.g., 'Show me events this weekend')">
+                            <select id="langSelect" class="lang-select">
+                                <option value="en">EN</option>
+                                <option value="hi">HI</option>
+                                <option value="te">TE</option>
+                            </select>
+                            <button id="sendTextBtn" class="send-btn" title="Send">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Panel: Events & Bookings -->
+            <aside class="info-panel glass">
+                <div class="tabs">
+                    <button id="eventsTab" class="tab active" data-tab="events">Events</button>
+                    <button id="bookingsTab" class="tab" data-tab="bookings">My Bookings</button>
+                </div>
+
+                <div id="eventsContent" class="tab-content active">
+                    <div id="eventsList" class="events-list">
+                        <div class="loading-spinner">Loading events...</div>
+                    </div>
+                </div>
+
+                <div id="bookingsContent" class="tab-content">
+                    <div id="bookingsList" class="bookings-list">
+                        <p class="empty-state">No bookings yet. Start chatting to book events!</p>
+                    </div>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <!-- Audio player (hidden) -->
+    <audio id="audioPlayer" style="display:none;"></audio>
+
+    <script src="app.js"></script>
+</body>
+</html>

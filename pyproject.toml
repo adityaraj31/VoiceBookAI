@@ -1,0 +1,28 @@
+[project]
+name = "ai-voice-booking-system"
+version = "0.1.0"
+description = "A voice-first AI assistant for event booking with multilingual support (Telugu, Hindi, English)"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.34.0",
+    "openai-whisper>=20240930",
+    "gtts>=2.5.0",
+    "httpx>=0.28.0",
+    "python-dotenv>=1.0.0",
+    "python-multipart>=0.0.20",
+    "pydantic>=2.10.0",
+    "static-ffmpeg>=2.7",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["backend"]
