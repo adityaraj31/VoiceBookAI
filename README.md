@@ -1,32 +1,32 @@
-# 🎤 VoiceBookAI — AI Voice Event Booking System
+# VoiceBookAI — AI Voice Event Booking System
 
 A voice-first AI assistant that lets users browse, book, and get recommendations for events entirely through speech in **Telugu (తెలుగు)**, **Hindi (हिन्दी)**, or **English**.
 
 ---
 
-## 🏗️ Task Selection & Rationale
+## Task Selection & Rationale
 **Selected Task: Task [03] — Conversational Voice AI**
 
 I chose this task because it represents the future of user interfaces — moving beyond screens to natural, multi-turn dialogue. Developing a system that can handle language switching (English/Hindi/Telugu), extract intents from casual speech, and manage conversational state (like "book the first one") presents exciting technical challenges in orchestrating STT, LLMs, and TTS into a low-latency loop.
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 | Feature | Description |
 |---------|-------------|
-| 🎙️ **Voice Input** | Speak in Telugu, Hindi, or English — auto-detected language. |
-| 🧠 **Smart Intent** | LLM extracts event, date, time, and ticket count from natural speech. |
-| 📅 **Event Database** | 15 seeded events across 8 categories with real-time availability. |
-| 🎟️ **Instant Booking** | Book with voice, get a reference code immediately. |
-| 💡 **No Disappointment** | When an event is full, AI offers 2–3 alternatives instantly. |
-| 💬 **Multi-turn Chat** | Handles relative references like "Book it" or "The first one". |
-| 🔊 **Voice Response** | Real-time multilingual audio response via gTTS. |
+| **Voice Input** | Speak in Telugu, Hindi, or English — auto-detected language. |
+| **Smart Intent** | LLM extracts event, date, time, and ticket count from natural speech. |
+| **Event Database** | 15 seeded events across 8 categories with real-time availability. |
+| **Instant Booking** | Book with voice, get a reference code immediately. |
+| **No Disappointment** | When an event is full, AI offers 2–3 alternatives instantly. |
+| **Multi-turn Chat** | Handles relative references like "Book it" or "The first one". |
+| **Voice Response** | Real-time multilingual audio response via gTTS. |
 
 
 ---
 
-## 🛠️ Tech Stack & Architecture
+## Tech Stack & Architecture
 
 ### **Data Flow**
 1. **Frontend**: Captures audio (Web Audio API) or text.
@@ -53,7 +53,7 @@ I chose this task because it represents the future of user interfaces — moving
 
 ---
 
-## 🚀 Setup Instructions
+## Setup Instructions
 
 ### **Prerequisites**
 - **Python 3.10+**
@@ -92,7 +92,7 @@ I chose this task because it represents the future of user interfaces — moving
 
 ---
 
-## 🎯 Demo & Screenshots
+## Demo & Screenshots
 
 ### **Full Conversational Demo**
 The following recording shows a multi-turn conversation where a user tries to book a full event and the AI intelligently suggests alternatives.
@@ -117,7 +117,7 @@ The interface is designed with a premium, glassmorphic aesthetic inspired by Sar
 
 ---
 
-## ⚠️ Known Limitations & Future Improvements
+## Known Limitations & Future Improvements
 
 ### **Current Limitations**
 1. **Latency**: Local Whisper `base` model takes 1-2 seconds for transcription.
@@ -132,5 +132,5 @@ The interface is designed with a premium, glassmorphic aesthetic inspired by Sar
 
 ---
 
-## 📜 License
+## License
 MIT License - 2026 VoiceBookAI Team.
