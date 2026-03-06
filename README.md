@@ -7,7 +7,7 @@ A voice-first AI assistant that lets users browse, book, and get recommendations
 ## Task Selection & Rationale
 **Selected Task: Task [03] — Conversational Voice AI**
 
-I chose this task because it represents the future of user interfaces — moving beyond screens to natural, multi-turn dialogue. Developing a system that can handle language switching (English/Hindi/Telugu), extract intents from casual speech, and manage conversational state (like "book the first one") presents exciting technical challenges in orchestrating STT, LLMs, and TTS into a low-latency loop.
+I chose this task because it represents the future of user interfaces, moving beyond screens to natural, multi-turn dialogue. Developing a system that can handle language switching (English/Hindi/Telugu), extract intents from casual speech, and manage conversational state (like "book the first one") presents exciting technical challenges in orchestrating STT, LLMs, and TTS into a low-latency loop.
 
 ---
 
